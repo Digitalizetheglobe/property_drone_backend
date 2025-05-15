@@ -1,6 +1,35 @@
 import { Blog } from "../models/index.js";
 import slugify from "slugify";
 import path from "path";
+import express from "express";
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    console.log("Incoming Field Name:", file.fieldname); // Log the field name
+    const allowedFileTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedFileTypes.test(file.mimetype);
+
+    if (extname && mimetype) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only images are allowed'));
+    }
+  }
+});
+
+const router = express.Router();
 
 // Get all blogs
 export const getAllBlogs = async (req, res) => {
@@ -27,6 +56,9 @@ export const getBlogById = async (req, res) => {
 // Create a new blog
 export const createBlog = async (req, res) => {
     try {
+        console.log("Request Body:", req.body); // Log the request body
+        console.log("Uploaded File:", req.file); // Log the uploaded file
+
         const { 
             blogTitle, 
             blogDescription, 
@@ -59,11 +91,15 @@ export const createBlog = async (req, res) => {
             slug
         });
 
+        console.log("New Blog Created:", newBlog); // Log the created blog
         res.status(201).json(newBlog);
     } catch (error) {
+        console.error("Error in createBlog:", error); // Log the error
         res.status(400).json({ message: error.message });
     }
 };
+
+router.post("/", upload.single('blogImage'), createBlog);
 
 // Update an existing blog
 export const updateBlog = async (req, res) => {
@@ -101,3 +137,5 @@ export const deleteBlog = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+

@@ -48,6 +48,7 @@ app.use("/properties", propertyRoutes);
 app.use("/admin", adminRoutes);
 app.use("/careers", careerRoutes);
 app.use("/applications", applicationRoutes);
+app.use('/uploads', express.static(path.join(process.cwd(), 'public/uploads')));
 
 app.get("/", (req, res) => {
   res.send("API is running...");

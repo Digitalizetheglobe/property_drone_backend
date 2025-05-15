@@ -1,4 +1,5 @@
 export default (sequelize, DataTypes) => {
+
   const Property = sequelize.define("Property", {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     // Use explicit table name mapping to avoid conflicts
