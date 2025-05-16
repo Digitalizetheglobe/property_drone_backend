@@ -55,7 +55,7 @@ export const submitApplication = async (req, res) => {
     } = req.body; // Extract form data from the request body
 
     // Validate required fields
-    if (!jobId || !firstName || !lastName || !email) {
+    if (!firstName || !lastName || !email) {
       return res.status(400).json({ message: "Required fields are missing" });
     }
     
@@ -88,7 +88,7 @@ export const submitApplication = async (req, res) => {
 
     // Create a new job application in the database
     const newApplication = await JobApplication.create({
-      jobId,
+      jobId: jobId || null,
       firstName,
       lastName,
       email,

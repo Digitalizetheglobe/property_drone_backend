@@ -2,7 +2,7 @@ export default (sequelize, DataTypes) => {
     const JobApplication = sequelize.define("JobApplication", {
         jobId: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'Careers',
                 key: 'jobId'

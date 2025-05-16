@@ -1,6 +1,10 @@
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Create directory if it doesn't exist
 const createDestinationDir = (destination) => {
@@ -16,15 +20,20 @@ const storage = multer.diskStorage({
     let uploadPath;
     
     if (file.fieldname === "propertyImages") {
-      uploadPath = path.join(process.cwd(), "public", "uploads", "properties");
+      uploadPath = path.join(__dirname, "../uploads/properties");
     } else if (file.fieldname === "blogImage") {
-      uploadPath = path.join(process.cwd(), "public", "uploads", "blogs");
+      uploadPath = path.join(__dirname, "../uploads/blogs");
+    } else if (file.fieldname === "image") { 
+      uploadPath = path.join(__dirname, "../uploads/blogs");
     } else {
-      uploadPath = path.join(process.cwd(), "public", "uploads", "others");
+      uploadPath = path.join(__dirname, "../uploads/others");
     }
     
     // Create directory if it doesn't exist
     createDestinationDir(uploadPath);
+    
+    // Log the field name and destination for debugging
+    console.log(`Field name: ${file.fieldname}, Destination: ${uploadPath}`);
     
     cb(null, uploadPath);
   },
@@ -37,6 +46,9 @@ const storage = multer.diskStorage({
 
 // Filter for image types
 const fileFilter = (req, file, cb) => {
+  // Log the incoming file information for debugging
+  console.log(`Incoming file: ${file.fieldname}, mimetype: ${file.mimetype}`);
+  
   // Accept only image files
   if (file.mimetype.startsWith('image/')) {
     cb(null, true);
@@ -49,7 +61,7 @@ const fileFilter = (req, file, cb) => {
 export const upload = multer({ 
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
+    fileSize: 10 * 1024 * 1024 // 10MB limit
   },
   fileFilter: fileFilter
 });

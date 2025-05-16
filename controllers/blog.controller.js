@@ -1,35 +1,6 @@
 import { Blog } from "../models/index.js";
 import slugify from "slugify";
 import path from "path";
-import express from "express";
-import multer from "multer";
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  }
-});
-
-const upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    console.log("Incoming Field Name:", file.fieldname); // Log the field name
-    const allowedFileTypes = /jpeg|jpg|png|gif|webp/;
-    const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedFileTypes.test(file.mimetype);
-
-    if (extname && mimetype) {
-      return cb(null, true);
-    } else {
-      cb(new Error('Only images are allowed'));
-    }
-  }
-});
-
-const router = express.Router();
 
 // Get all blogs
 export const getAllBlogs = async (req, res) => {
@@ -56,8 +27,9 @@ export const getBlogById = async (req, res) => {
 // Create a new blog
 export const createBlog = async (req, res) => {
     try {
-        console.log("Request Body:", req.body); // Log the request body
-        console.log("Uploaded File:", req.file); // Log the uploaded file
+        console.log("\n--- CREATE BLOG DEBUG ---");
+        console.log("Request Body:", req.body);
+        console.log("Uploaded Files:", req.files);
 
         const { 
             blogTitle, 
@@ -68,15 +40,23 @@ export const createBlog = async (req, res) => {
             tags 
         } = req.body;
 
+        if (!blogTitle) {
+            return res.status(400).json({ message: "Blog title is required" });
+        }
+
         const slug = slugify(blogTitle, { lower: true });
 
-        // Process image if uploaded
+        // Process image if uploaded - accept any file
         let blogImage = null;
-        if (req.file) {
+        if (req.files && req.files.length > 0) {
+            // Use the first file regardless of field name
+            const file = req.files[0];
+            console.log("Using file with field name:", file.fieldname);
             blogImage = {
-                filename: req.file.filename,
-                path: `/uploads/blogs/${req.file.filename}`,
-                originalName: req.file.originalname
+                filename: file.filename,
+                path: `/uploads/blogs/${file.filename}`,
+                originalName: file.originalname,
+                fieldName: file.fieldname // Store the field name for debugging
             };
         }
 
@@ -91,36 +71,45 @@ export const createBlog = async (req, res) => {
             slug
         });
 
-        console.log("New Blog Created:", newBlog); // Log the created blog
+        console.log("New Blog Created:", newBlog);
         res.status(201).json(newBlog);
     } catch (error) {
-        console.error("Error in createBlog:", error); // Log the error
+        console.error("Error in createBlog:", error);
         res.status(400).json({ message: error.message });
     }
 };
 
-router.post("/", upload.single('blogImage'), createBlog);
+
 
 // Update an existing blog
 export const updateBlog = async (req, res) => {
     try {
+        console.log("\n--- UPDATE BLOG DEBUG ---");
+        console.log("Update Request Body:", req.body);
+        console.log("Update Uploaded Files:", req.files);
+
         const blog = await Blog.findByPk(req.params.id);
         if (!blog) return res.status(404).json({ message: "Blog not found" });
 
         const updateData = { ...req.body };
 
-        // Process image if uploaded
-        if (req.file) {
+        // Process image if uploaded - accept any file
+        if (req.files && req.files.length > 0) {
+            // Use the first file regardless of field name
+            const file = req.files[0];
+            console.log("Using file with field name:", file.fieldname);
             updateData.blogImage = [{
-                filename: req.file.filename,
-                path: `/uploads/blogs/${req.file.filename}`,
-                originalName: req.file.originalname
+                filename: file.filename,
+                path: `/uploads/blogs/${file.filename}`,
+                originalName: file.originalname,
+                fieldName: file.fieldname // Store the field name for debugging
             }];
         }
 
         await blog.update(updateData);
         res.json(blog);
     } catch (error) {
+        console.error("Error in updateBlog:", error);
         res.status(500).json({ message: error.message });
     }
 };
