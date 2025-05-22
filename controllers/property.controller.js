@@ -25,11 +25,16 @@ export const getPropertyById = async (req, res) => {
 };
 
 // Create a new property
-// Create a new property
 export const createProperty = async (req, res) => {
   try {
     const {
       propertyName,
+      propertyType,
+      youtubeUrl,
+      googleMapUrl,
+      propertyCategory,
+      beds,
+      baths,
       topology,
       carpetArea,
       city,
@@ -52,13 +57,19 @@ export const createProperty = async (req, res) => {
         path: `/uploads/properties/${file.filename}`,
         originalName: file.originalname
       }));
-      console.log("Multiple images processed:", multipleImages); // Log the processed images
+      console.log("Multiple images processed:", multipleImages);
     } else {
-      console.log("No images uploaded."); // Log if no images were uploaded
+      console.log("No images uploaded.");
     }
 
     const newProperty = await Property.create({
       propertyName,
+      propertyType,
+      youtubeUrl,
+      googleMapUrl,
+      propertyCategory,
+      beds,
+      baths,
       topology,
       carpetArea,
       city,
@@ -72,11 +83,11 @@ export const createProperty = async (req, res) => {
       seoKeywords
     });
 
-    console.log("New property created:", newProperty); // Log the created property
+    console.log("New property created:", newProperty);
 
     res.status(201).json(newProperty);
   } catch (error) {
-    console.error("Error creating property:", error); // Log the error
+    console.error("Error creating property:", error);
     res.status(400).json({ message: error.message });
   }
 };

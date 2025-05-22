@@ -8,6 +8,7 @@ import PropertyModel from "./property.model.js";
 import AdminUserModel from "./admin.model.js"; 
 import CareerModel from "./career.model.js";
 import JobApplicationModel from "./application.model.js"; // Add this line
+import YoutubeVideoModel from "./youtube.model.js"; 
 
 dotenv.config();
 
@@ -30,7 +31,7 @@ const Career = CareerModel(sequelize, DataTypes); // Notice I changed to PascalC
 const Property = PropertyModel(sequelize, DataTypes);
 const AdminUser = AdminUserModel(sequelize, DataTypes);
 const JobApplication = JobApplicationModel(sequelize, DataTypes); // Add this line
-
+const YoutubeVideo = YoutubeVideoModel(sequelize, DataTypes);
 // Define associations
 Career.hasMany(JobApplication, { foreignKey: 'jobId', sourceKey: 'jobId' });
 JobApplication.belongsTo(Career, { foreignKey: 'jobId', targetKey: 'jobId' });
@@ -43,4 +44,4 @@ sequelize.sync()
   .then(() => console.log("Database & tables created!"))
   .catch((err) => console.log("Error:", err));
 
-export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication }; // Add JobApplication to exports
+export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo }; // Add JobApplication to exports

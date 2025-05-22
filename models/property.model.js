@@ -8,6 +8,12 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       field: 'propertyName' // This is the column name in the database
     },
+    propertyType: { type: DataTypes.STRING, allowNull: true },
+    youtubeUrl: { type: DataTypes.STRING, allowNull: true },
+    googleMapUrl: { type: DataTypes.STRING, allowNull: true },
+    propertyCategory: { type: DataTypes.STRING, allowNull: true },
+    beds: { type: DataTypes.INTEGER, allowNull: true },
+    baths: { type: DataTypes.INTEGER, allowNull: true },
     topology: { type: DataTypes.STRING, allowNull: true },
     carpetArea: { type: DataTypes.STRING, allowNull: true },
     city: { type: DataTypes.STRING, allowNull: true },

@@ -13,7 +13,7 @@ import propertyRoutes from "./routes/property.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import careerRoutes from "./routes/career.routes.js";
 import applicationRoutes from "./routes/application.routes.js";
-
+import youtubeRoutes from "./routes/youtube.routes.js";
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -48,6 +48,7 @@ app.use("/properties", propertyRoutes);
 app.use("/admin", adminRoutes);
 app.use("/careers", careerRoutes);
 app.use("/applications", applicationRoutes);
+app.use("/youtube-videos", youtubeRoutes); 
 app.use('/uploads', express.static(path.join(process.cwd(), 'public/uploads')));
 
 app.get("/", (req, res) => {
