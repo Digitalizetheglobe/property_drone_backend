@@ -15,7 +15,7 @@
   },
   "production": {
     "username": "property_user",
-    "password": "PropertyDrone2025",
+    "password": "PropertyDrone@2025",
     "database": "propertydrone",
     "host": "localhost",
     "dialect": "mysql"

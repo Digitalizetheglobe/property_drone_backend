@@ -11,7 +11,7 @@ const connection = mysql2.createConnection({
   host: "localhost",        
   database: "propertydrone", 
   user: "property_user",
-  password: "PropertyDrone2025"
+  password: "PropertyDrone@2025"
 });
 
 
