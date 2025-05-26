@@ -7,8 +7,10 @@ import BlogModel from "./blog.model.js";
 import PropertyModel from "./property.model.js";
 import AdminUserModel from "./admin.model.js"; 
 import CareerModel from "./career.model.js";
-import JobApplicationModel from "./application.model.js"; // Add this line
-import YoutubeVideoModel from "./youtube.model.js"; 
+import JobApplicationModel from "./application.model.js";
+import YoutubeVideoModel from "./youtube.model.js";
+import RealEstateModel from "./realestate.model.js";
+import realEstateBasicModel from './realEstateBasic.model.js';
 
 dotenv.config();
 
@@ -27,11 +29,14 @@ const sequelize = new Sequelize(
 const Contact = ContactModel(sequelize, DataTypes);
 const Project = ProjectModel(sequelize, DataTypes);
 const Blog = BlogModel(sequelize, DataTypes);
-const Career = CareerModel(sequelize, DataTypes); // Notice I changed to PascalCase
+const Career = CareerModel(sequelize, DataTypes);
 const Property = PropertyModel(sequelize, DataTypes);
 const AdminUser = AdminUserModel(sequelize, DataTypes);
-const JobApplication = JobApplicationModel(sequelize, DataTypes); // Add this line
+const JobApplication = JobApplicationModel(sequelize, DataTypes);
 const YoutubeVideo = YoutubeVideoModel(sequelize, DataTypes);
+const RealEstate = RealEstateModel(sequelize);
+const RealEstateBasic = realEstateBasicModel(sequelize, Sequelize.DataTypes);
+
 // Define associations
 Career.hasMany(JobApplication, { foreignKey: 'jobId', sourceKey: 'jobId' });
 JobApplication.belongsTo(Career, { foreignKey: 'jobId', targetKey: 'jobId' });
@@ -44,4 +49,4 @@ sequelize.sync()
   .then(() => console.log("Database & tables created!"))
   .catch((err) => console.log("Error:", err));
 
-export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo }; // Add JobApplication to exports
+export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo, RealEstate, RealEstateBasic };

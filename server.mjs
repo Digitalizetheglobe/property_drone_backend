@@ -14,6 +14,8 @@ import adminRoutes from "./routes/admin.routes.js";
 import careerRoutes from "./routes/career.routes.js";
 import applicationRoutes from "./routes/application.routes.js";
 import youtubeRoutes from "./routes/youtube.routes.js";
+import realEstateRoutes from "./routes/realestate.routes.js";
+import realEstateBasicRoutes from './routes/realEstateBasic.routes.js';
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -48,8 +50,10 @@ app.use("/properties", propertyRoutes);
 app.use("/admin", adminRoutes);
 app.use("/careers", careerRoutes);
 app.use("/applications", applicationRoutes);
-app.use("/youtube-videos", youtubeRoutes); 
+app.use("/youtube-videos", youtubeRoutes);
+app.use("/real-estate", realEstateRoutes);
 app.use('/uploads', express.static(path.join(process.cwd(), 'public/uploads')));
+app.use('/api/real-estate-basics', realEstateBasicRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running...");
