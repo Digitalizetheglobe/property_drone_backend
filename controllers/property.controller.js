@@ -98,26 +98,69 @@ export const updateProperty = async (req, res) => {
     const property = await Property.findByPk(req.params.id);
     if (!property) return res.status(404).json({ message: "Property not found" });
 
-    const updateData = { ...req.body };
+    // Parse property data from FormData
+    let updateData = {};
+    if (req.body.propertyData) {
+      updateData = JSON.parse(req.body.propertyData);
+    } else {
+      updateData = req.body;
+    }
     
     // If generating a new slug is needed when property name changes
     if (updateData.propertyName) {
       updateData.slug = slugify(updateData.propertyName, { lower: true });
     }
 
-    // Process multiple images if uploaded
+    // Get current images
+    let currentImages = property.multipleImages || [];
+
+    // Handle image deletion if specified
+    if (updateData.imagesToRemove) {
+      const imagesToRemove = typeof updateData.imagesToRemove === 'string' 
+        ? JSON.parse(updateData.imagesToRemove) 
+        : updateData.imagesToRemove;
+
+      // Delete files from server
+      imagesToRemove.forEach(imageId => {
+        const imageToDelete = currentImages.find(img => img.filename === imageId);
+        if (imageToDelete) {
+          const imagePath = path.join(process.cwd(), 'public', imageToDelete.path);
+          if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath);
+          }
+        }
+      });
+
+      // Remove deleted images from the array
+      currentImages = currentImages.filter(img => !imagesToRemove.includes(img.filename));
+    }
+
+    // Add new images if uploaded
     if (req.files && req.files.length > 0) {
-      // If you want to replace all images
-      updateData.multipleImages = req.files.map(file => ({
+      const newImages = req.files.map(file => ({
         filename: file.filename,
         path: `/uploads/properties/${file.filename}`,
         originalName: file.originalname
       }));
+      
+      // Combine existing and new images
+      currentImages = [...currentImages, ...newImages];
     }
 
+    // Remove imagesToRemove from updateData as it's not a database field
+    delete updateData.imagesToRemove;
+
+    // Update the property with the modified images array
+    updateData.multipleImages = currentImages;
+
+    // Update the property
     await property.update(updateData);
-    res.json(property);
+
+    // Fetch the updated property to return the latest state
+    const updatedProperty = await Property.findByPk(req.params.id);
+    res.json(updatedProperty);
   } catch (error) {
+    console.error("Error updating property:", error);
     res.status(400).json({ message: error.message });
   }
 };
