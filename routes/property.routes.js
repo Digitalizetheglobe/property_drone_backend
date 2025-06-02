@@ -5,7 +5,8 @@ import {
   createProperty, 
   updateProperty, 
   deleteProperty,
-  updatePropertyImages
+  updatePropertyImages,
+  getPropertyBySlug
 } from "../controllers/property.controller.js";
 import { upload } from "../middleware/multer.js";
 
@@ -13,6 +14,9 @@ const router = express.Router();
 
 // Get all properties
 router.get("/", getProperties);
+
+// Get property by slug
+router.get("/:slug", getPropertyBySlug);
 
 // Get property by ID
 router.get("/:id", getPropertyById);

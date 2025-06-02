@@ -32,6 +32,37 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: true
     });
+
+    await queryInterface.addColumn('Properties', 'landParcel', {
+      type: Sequelize.STRING,
+      allowNull: true
+    });
+
+    await queryInterface.addColumn('Properties', 'carParking', {
+      type: Sequelize.STRING,
+      allowNull: true
+    });
+
+    await queryInterface.addColumn('Properties', 'reraNo', {
+      type: Sequelize.STRING,
+      allowNull: true
+    });
+
+    await queryInterface.addColumn('Properties', 'towerName', {
+      type: Sequelize.STRING,
+      allowNull: true
+    });
+
+    await queryInterface.addColumn('Properties', 'storeys', {
+      type: Sequelize.INTEGER,
+      allowNull: true
+    });
+
+    await queryInterface.addColumn('Properties', 'amenities', {
+      type: Sequelize.JSON,
+      allowNull: true,
+      defaultValue: []
+    });
   },
 
   async down(queryInterface, Sequelize) {
@@ -41,5 +72,11 @@ module.exports = {
     await queryInterface.removeColumn('Properties', 'propertyCategory');
     await queryInterface.removeColumn('Properties', 'beds');
     await queryInterface.removeColumn('Properties', 'baths');
+    await queryInterface.removeColumn('Properties', 'landParcel');
+    await queryInterface.removeColumn('Properties', 'carParking');
+    await queryInterface.removeColumn('Properties', 'reraNo');
+    await queryInterface.removeColumn('Properties', 'towerName');
+    await queryInterface.removeColumn('Properties', 'storeys');
+    await queryInterface.removeColumn('Properties', 'amenities');
   }
 }; 

@@ -29,7 +29,7 @@ export default (sequelize, DataTypes) => {
     seoDescription: { type: DataTypes.STRING, allowNull: true },
     seoTitle: { type: DataTypes.STRING, allowNull: true },
     seoKeywords: { type: DataTypes.STRING, allowNull: true },
-    // In property.model.js, add these fields to the model definition
+   
    }, {
     // By setting freezeTableName, you ensure Sequelize doesn't pluralize the table name
     freezeTableName: true,

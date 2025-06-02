@@ -13,6 +13,17 @@ export const getProperties = async (req, res) => {
   }
 };
 
+// Get property by slug
+export const getPropertyBySlug = async (req, res) => {
+  try {
+    const property = await Property.findOne({ where: { slug: req.params.slug } });
+    if (!property) return res.status(404).json({ message: "Property not found" });
+    res.json(property);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Get property by ID
 export const getPropertyById = async (req, res) => {
   try {
@@ -43,7 +54,13 @@ export const createProperty = async (req, res) => {
       possession,
       seoDescription,
       seoTitle,
-      seoKeywords
+      seoKeywords,
+      landParcel,
+      carParking,
+      reraNo,
+      towerName,
+      storeys,
+      amenities
     } = req.body;
 
     // Generate slug from property name
@@ -60,6 +77,15 @@ export const createProperty = async (req, res) => {
       console.log("Multiple images processed:", multipleImages);
     } else {
       console.log("No images uploaded.");
+    }
+
+    // Handle amenities parsing
+    let parsedAmenities = [];
+    try {
+      parsedAmenities = typeof amenities === 'string' ? JSON.parse(amenities) : amenities;
+    } catch (error) {
+      console.log("Error parsing amenities, using empty array:", error);
+      parsedAmenities = [];
     }
 
     const newProperty = await Property.create({
@@ -80,7 +106,13 @@ export const createProperty = async (req, res) => {
       slug,
       seoDescription,
       seoTitle,
-      seoKeywords
+      seoKeywords,
+      landParcel,
+      carParking,
+      reraNo,
+      towerName,
+      storeys,
+      amenities: parsedAmenities
     });
 
     console.log("New property created:", newProperty);
