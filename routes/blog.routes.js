@@ -8,7 +8,8 @@ import {
   getBlogById, 
   createBlog, 
   updateBlog, 
-  deleteBlog 
+  deleteBlog,
+  getBlogBySlug 
 } from "../controllers/blog.controller.js";
 
 const router = express.Router();
@@ -56,6 +57,7 @@ const upload = multer({
 
 // Define routes with middleware
 router.get("/", getAllBlogs);
+router.get("/:slug", getBlogBySlug);
 router.get("/:id", getBlogById);
 
 // Use the debug middleware and a more permissive multer configuration

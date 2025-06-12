@@ -24,6 +24,29 @@ export const getBlogById = async (req, res) => {
     }
 };
 
+// Get a single blog by slug
+export const getBlogBySlug = async (req, res) => {
+    try {
+        console.log("Searching for slug:", req.params.slug);
+        const blog = await Blog.findOne({
+            where: {
+                slug: req.params.slug
+            }
+        });
+        
+        if (!blog) {
+            console.log("No blog found with slug:", req.params.slug);
+            return res.status(404).json({ message: "Blog not found" });
+        }
+
+        console.log("Found blog:", blog);
+        res.json(blog);
+    } catch (error) {
+        console.error("Error in getBlogBySlug:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // Create a new blog
 export const createBlog = async (req, res) => {
     try {
@@ -78,8 +101,6 @@ export const createBlog = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-
-
 
 // Update an existing blog
 export const updateBlog = async (req, res) => {
