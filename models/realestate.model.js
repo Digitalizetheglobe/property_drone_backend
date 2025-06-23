@@ -23,7 +23,7 @@ const RealEstateModel = (sequelize) => {
       },
       images: {
         type: DataTypes.JSON,
-        allowNull: true,
+        allowNull: false,
       },
       author: {
         type: DataTypes.STRING,
