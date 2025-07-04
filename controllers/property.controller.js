@@ -60,7 +60,10 @@ export const createProperty = async (req, res) => {
       reraNo,
       towerName,
       storeys,
-      amenities
+      amenities,
+      configurationTypology,
+      event,
+      reraNumber
     } = req.body;
 
     // Generate slug from property name
@@ -88,6 +91,15 @@ export const createProperty = async (req, res) => {
       parsedAmenities = [];
     }
 
+    // Parse configurationTypology
+    let parsedConfigurationTypology = [];
+    try {
+      parsedConfigurationTypology = typeof configurationTypology === 'string' ? JSON.parse(configurationTypology) : configurationTypology;
+    } catch (error) {
+      console.log("Error parsing configurationTypology, using empty array:", error);
+      parsedConfigurationTypology = [];
+    }
+
     const newProperty = await Property.create({
       propertyName,
       propertyType,
@@ -112,7 +124,10 @@ export const createProperty = async (req, res) => {
       reraNo,
       towerName,
       storeys,
-      amenities: parsedAmenities
+      amenities: parsedAmenities,
+      configurationTypology: parsedConfigurationTypology,
+      event,
+      reraNumber
     });
 
     console.log("New property created:", newProperty);
@@ -184,6 +199,16 @@ export const updateProperty = async (req, res) => {
 
     // Update the property with the modified images array
     updateData.multipleImages = currentImages;
+
+    // Parse configurationTypology if present
+    if (updateData.configurationTypology) {
+      try {
+        updateData.configurationTypology = typeof updateData.configurationTypology === 'string' ? JSON.parse(updateData.configurationTypology) : updateData.configurationTypology;
+      } catch (error) {
+        console.log("Error parsing configurationTypology in update, using empty array:", error);
+        updateData.configurationTypology = [];
+      }
+    }
 
     // Update the property
     await property.update(updateData);

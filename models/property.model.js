@@ -29,7 +29,21 @@ export default (sequelize, DataTypes) => {
     seoDescription: { type: DataTypes.STRING, allowNull: true },
     seoTitle: { type: DataTypes.STRING, allowNull: true },
     seoKeywords: { type: DataTypes.STRING, allowNull: true },
-   
+    configurationTypology: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      field: 'configurationTypology'
+    },
+    event: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'event'
+    },
+    reraNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'reraNumber'
+    },
    }, {
     // By setting freezeTableName, you ensure Sequelize doesn't pluralize the table name
     freezeTableName: true,
