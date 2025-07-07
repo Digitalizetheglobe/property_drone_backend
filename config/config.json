@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": "Bhavik@020302",
-    "database": "propertyDrone_db",
-    "host": "127.0.0.1",
+    "username": "property_user",
+    "password": "PropertyDrone@2025",
+    "database": "propertydrone",
+    "host": "localhost",
     "dialect": "mysql"
   }
 }
