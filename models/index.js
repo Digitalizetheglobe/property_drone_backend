@@ -11,6 +11,7 @@ import JobApplicationModel from "./application.model.js";
 import YoutubeVideoModel from "./youtube.model.js";
 import RealEstateModel from "./realestate.model.js";
 import realEstateBasicModel from './realEstateBasic.model.js';
+import CookieConsentModel from './cookieconsent.model.js';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ const JobApplication = JobApplicationModel(sequelize, DataTypes);
 const YoutubeVideo = YoutubeVideoModel(sequelize, DataTypes);
 const RealEstate = RealEstateModel(sequelize);
 const RealEstateBasic = realEstateBasicModel(sequelize, Sequelize.DataTypes);
+const CookieConsent = CookieConsentModel(sequelize);
 
 // Define associations
 Career.hasMany(JobApplication, { foreignKey: 'jobId', sourceKey: 'jobId' });
@@ -49,4 +51,4 @@ sequelize.sync()
   .then(() => console.log("Database & tables created!"))
   .catch((err) => console.log("Error:", err));
 
-export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo, RealEstate, RealEstateBasic };
+export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo, RealEstate, RealEstateBasic, CookieConsent };

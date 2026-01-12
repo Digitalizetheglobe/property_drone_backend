@@ -16,6 +16,14 @@ import applicationRoutes from "./routes/application.routes.js";
 import youtubeRoutes from "./routes/youtube.routes.js";
 import realEstateRoutes from "./routes/realestate.routes.js";
 import realEstateBasicRoutes from './routes/realEstateBasic.routes.js';
+import cookieConsentRoutes from './routes/cookieconsent.routes.js';
+// NEW: Import comparison, saved, award, testimonial routes
+import propertyComparisonRoutes from './routes/propertyComparison.routes.js';
+import savedPropertyRoutes from './routes/savedProperty.routes.js';
+import awardRoutes from './routes/award.routes.js';
+import testimonialRoutes from './routes/testimonial.routes.js';
+import webuserRoutes from './routes/webuser.routes.js';
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -54,6 +62,13 @@ app.use("/youtube-videos", youtubeRoutes);
 app.use("/real-estate", realEstateRoutes);
 app.use('/uploads', express.static(path.join(process.cwd(), 'public/uploads')));
 app.use('/api/real-estate-basics', realEstateBasicRoutes);
+app.use("/api/cookie-consent", cookieConsentRoutes);
+// NEW: Mount routes
+app.use('/api/property-comparisons', propertyComparisonRoutes);
+app.use('/api/saved-properties', savedPropertyRoutes);
+app.use('/api/awards', awardRoutes);
+app.use('/api/webusers', webuserRoutes);
+app.use('/api/testimonials', testimonialRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running...");
