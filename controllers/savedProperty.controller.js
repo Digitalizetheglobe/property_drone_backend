@@ -1,4 +1,4 @@
-import SavedProperty from '../models/savedproperty.model.js';
+import SavedProperty from '../models/savedProperty.model.js';
 
 const getAll = async (req, res) => {
   try {
