@@ -1,4 +1,5 @@
 import { CookieConsent } from "../models/index.js";
+import { Op } from "sequelize";
 
 // Set or update cookie consent status
 export const setCookieConsent = async (req, res) => {
@@ -24,7 +25,7 @@ export const setCookieConsent = async (req, res) => {
   }
 };
 
-// Get cookie consent status
+// Get cookie consent status (individual)
 export const getCookieConsent = async (req, res) => {
   try {
     const { userId, clientIdentifier } = req.query;
@@ -39,3 +40,14 @@ export const getCookieConsent = async (req, res) => {
   }
 };
 
+// Get all cookie consents (for admin dashboard)
+export const getAllCookieConsents = async (req, res) => {
+  try {
+    const consents = await CookieConsent.findAll({
+      order: [['updatedAt', 'DESC']]
+    });
+    res.status(200).json(consents);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

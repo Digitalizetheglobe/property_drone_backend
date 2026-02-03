@@ -49,5 +49,9 @@ const PropertyComparison = sequelize.define('PropertyComparison', {
     ]
 });
 
+// Define associations
+PropertyComparison.belongsTo(WebUser, { foreignKey: 'webUserId', as: 'webUser' });
+WebUser.hasMany(PropertyComparison, { foreignKey: 'webUserId' });
+
 export default PropertyComparison;
 

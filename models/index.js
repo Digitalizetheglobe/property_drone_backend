@@ -5,13 +5,16 @@ import ContactModel from "./contact.model.js";
 import ProjectModel from "./project.model.js";
 import BlogModel from "./blog.model.js";
 import PropertyModel from "./property.model.js";
-import AdminUserModel from "./admin.model.js"; 
+import AdminUserModel from "./admin.model.js";
 import CareerModel from "./career.model.js";
 import JobApplicationModel from "./application.model.js";
 import YoutubeVideoModel from "./youtube.model.js";
 import RealEstateModel from "./realestate.model.js";
 import realEstateBasicModel from './realEstateBasic.model.js';
 import CookieConsentModel from './cookieconsent.model.js';
+import NewsModel from './news.model.js';
+import UserPropertyModel from './userProperty.model.js';
+import ExpertModel from './expert.model.js';
 
 dotenv.config();
 
@@ -38,6 +41,9 @@ const YoutubeVideo = YoutubeVideoModel(sequelize, DataTypes);
 const RealEstate = RealEstateModel(sequelize);
 const RealEstateBasic = realEstateBasicModel(sequelize, Sequelize.DataTypes);
 const CookieConsent = CookieConsentModel(sequelize);
+const News = NewsModel(sequelize, DataTypes);
+const UserProperty = UserPropertyModel(sequelize, DataTypes);
+const Expert = ExpertModel(sequelize, DataTypes);
 
 // Define associations
 Career.hasMany(JobApplication, { foreignKey: 'jobId', sourceKey: 'jobId' });
@@ -51,4 +57,4 @@ sequelize.sync()
   .then(() => console.log("Database & tables created!"))
   .catch((err) => console.log("Error:", err));
 
-export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo, RealEstate, RealEstateBasic, CookieConsent };
+export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo, RealEstate, RealEstateBasic, CookieConsent, News, UserProperty, Expert };

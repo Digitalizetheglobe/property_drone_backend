@@ -1,8 +1,21 @@
 import PropertyComparison from '../models/propertycomparison.model.js';
+import WebUser from '../models/webuser.model.js';
 
 const getAll = async (req, res) => {
   try {
-    const items = await PropertyComparison.findAll();
+    const whereClause = {};
+    if (req.query.webUserId) {
+      whereClause.webUserId = req.query.webUserId;
+    }
+
+    const items = await PropertyComparison.findAll({
+      where: whereClause,
+      include: [{
+        model: WebUser,
+        as: 'webUser',
+        attributes: ['id', 'name', 'email', 'number']
+      }]
+    });
     res.json(items);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -21,9 +34,60 @@ const getOne = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const item = await PropertyComparison.create(req.body);
+    const { webUserId, propertyId } = req.body;
+
+    // Validate required fields
+    if (!webUserId || !propertyId) {
+      return res.status(400).json({ error: "webUserId and propertyId are required" });
+    }
+
+    // Idempotency check with explicit string cast for propertyId
+    // Using String() ensures we match how DB stores it if it is STRING type
+    const existing = await PropertyComparison.findOne({
+      where: {
+        webUserId: webUserId,
+        propertyId: String(propertyId)
+      }
+    });
+
+    if (existing) {
+      return res.status(200).json(existing);
+    }
+
+    // Create with explicit casting
+    const item = await PropertyComparison.create({
+      ...req.body,
+      propertyId: String(propertyId)
+    });
     res.status(201).json(item);
   } catch (error) {
+    console.error("Create comparison error:", error);
+
+    // Handle Unique Constraint specifically
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      try {
+        // Second-chance lookup in case of race condition
+        const existing = await PropertyComparison.findOne({
+          where: {
+            webUserId: req.body.webUserId,
+            propertyId: String(req.body.propertyId)
+          }
+        });
+        if (existing) return res.status(200).json(existing);
+      } catch (innerErr) {
+        console.error("Error fetching existing after unique constraint:", innerErr);
+      }
+      return res.status(409).json({ error: "Comparison already exists" });
+    }
+
+    // Handle Validation Errors by returning specific details
+    if (error.name === 'SequelizeValidationError') {
+      return res.status(400).json({
+        error: "Validation error",
+        details: error.errors?.map(e => e.message)
+      });
+    }
+
     res.status(400).json({ error: error.message });
   }
 };

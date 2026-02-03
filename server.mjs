@@ -22,7 +22,11 @@ import propertyComparisonRoutes from './routes/propertyComparison.routes.js';
 import savedPropertyRoutes from './routes/savedProperty.routes.js';
 import awardRoutes from './routes/award.routes.js';
 import testimonialRoutes from './routes/testimonial.routes.js';
+
 import webuserRoutes from './routes/webuser.routes.js';
+import newsRoutes from './routes/news.routes.js';
+import userPropertyRoutes from './routes/userProperty.routes.js';
+import expertRoutes from './routes/expert.routes.js';
 
 dotenv.config();
 
@@ -43,11 +47,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 import fs from 'fs';
 const uploadDirs = ['uploads/careers', 'uploads/applications'];
 uploadDirs.forEach(dir => {
-    const dirPath = path.join(__dirname, dir);
-    if (!fs.existsSync(dirPath)) {
-        fs.mkdirSync(dirPath, { recursive: true });
-        console.log(`Created directory: ${dirPath}`);
-    }
+  const dirPath = path.join(__dirname, dir);
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+    console.log(`Created directory: ${dirPath}`);
+  }
 });
 
 // Routes
@@ -68,7 +72,11 @@ app.use('/api/property-comparisons', propertyComparisonRoutes);
 app.use('/api/saved-properties', savedPropertyRoutes);
 app.use('/api/awards', awardRoutes);
 app.use('/api/webusers', webuserRoutes);
+
 app.use('/api/testimonials', testimonialRoutes);
+app.use('/news', newsRoutes);
+app.use('/api/user-properties', userPropertyRoutes);
+app.use('/api/experts', expertRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running...");

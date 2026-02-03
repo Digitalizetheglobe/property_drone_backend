@@ -8,17 +8,21 @@ const WebUser = sequelize.define('WebUser', {
     autoIncrement: true,
     field: 'id',
   },
-  username: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
-    field: 'username',
+    field: 'name',
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
     field: 'email',
+  },
+  number: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    field: 'number',
   },
   password: {
     type: DataTypes.STRING,
@@ -29,6 +33,13 @@ const WebUser = sequelize.define('WebUser', {
 }, {
   tableName: 'web_users',
   timestamps: true, // createdAt, updatedAt
+});
+
+// Force sync to ensure schema matches model (specifically for name/username change)
+WebUser.sync({ alter: true }).then(() => {
+  console.log("WebUser table synced");
+}).catch(err => {
+  console.error("Error syncing WebUser table:", err);
 });
 
 export default WebUser;
