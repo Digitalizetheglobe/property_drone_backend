@@ -18,23 +18,26 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Determine destination based on file type or route
     let uploadPath;
-    
+
     if (file.fieldname === "propertyImages") {
       uploadPath = path.join(__dirname, "../uploads/properties");
     } else if (file.fieldname === "blogImage") {
       uploadPath = path.join(__dirname, "../uploads/blogs");
-    } else if (file.fieldname === "image") { 
+    } else if (file.fieldname === "image") {
+      // If field name is 'image', store in '../uploads/blogs' as well (or somewhere else if needed)
       uploadPath = path.join(__dirname, "../uploads/blogs");
+    } else if (file.fieldname === "commercialPropertyImages") {
+      uploadPath = path.join(__dirname, "../uploads/commercial-properties");
     } else {
       uploadPath = path.join(__dirname, "../uploads/others");
     }
-    
+
     // Create directory if it doesn't exist
     createDestinationDir(uploadPath);
-    
+
     // Log the field name and destination for debugging
     console.log(`Field name: ${file.fieldname}, Destination: ${uploadPath}`);
-    
+
     cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
@@ -48,7 +51,7 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   // Log the incoming file information for debugging
   console.log(`Incoming file: ${file.fieldname}, mimetype: ${file.mimetype}`);
-  
+
   // Accept only image files
   if (file.mimetype.startsWith('image/')) {
     cb(null, true);
@@ -58,7 +61,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 // Export the configured multer middleware
-export const upload = multer({ 
+export const upload = multer({
   storage: storage,
   limits: {
     fileSize: 10 * 1024 * 1024 // 10MB limit

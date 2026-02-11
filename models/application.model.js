@@ -6,7 +6,8 @@ export default (sequelize, DataTypes) => {
             references: {
                 model: 'Careers',
                 key: 'jobId'
-            }
+            },
+            onDelete: 'CASCADE'
         },
         firstName: {
             type: DataTypes.STRING,

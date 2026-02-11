@@ -11,10 +11,12 @@ import JobApplicationModel from "./application.model.js";
 import YoutubeVideoModel from "./youtube.model.js";
 import RealEstateModel from "./realestate.model.js";
 import realEstateBasicModel from './realEstateBasic.model.js';
+import PlotModel from './plot.model.js';
 import CookieConsentModel from './cookieconsent.model.js';
 import NewsModel from './news.model.js';
 import UserPropertyModel from './userProperty.model.js';
 import ExpertModel from './expert.model.js';
+import CommercialPropertyModel from './commercialProperty.model.js';
 
 dotenv.config();
 
@@ -44,17 +46,20 @@ const CookieConsent = CookieConsentModel(sequelize);
 const News = NewsModel(sequelize, DataTypes);
 const UserProperty = UserPropertyModel(sequelize, DataTypes);
 const Expert = ExpertModel(sequelize, DataTypes);
+const Plot = PlotModel(sequelize, DataTypes);
+const CommercialProperty = CommercialPropertyModel(sequelize, DataTypes);
 
 // Define associations
-Career.hasMany(JobApplication, { foreignKey: 'jobId', sourceKey: 'jobId' });
-JobApplication.belongsTo(Career, { foreignKey: 'jobId', targetKey: 'jobId' });
+// Define associations
+// Career.hasMany(JobApplication, { foreignKey: 'jobId', sourceKey: 'jobId', onDelete: 'CASCADE' });
+// JobApplication.belongsTo(Career, { foreignKey: 'jobId', targetKey: 'jobId', onDelete: 'CASCADE' });
 
 // Add Op for operators
 const { Op } = Sequelize;
 sequelize.Op = Op;
 
-sequelize.sync()
+sequelize.sync({ alter: true })
   .then(() => console.log("Database & tables created!"))
   .catch((err) => console.log("Error:", err));
 
-export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo, RealEstate, RealEstateBasic, CookieConsent, News, UserProperty, Expert };
+export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo, RealEstate, RealEstateBasic, CookieConsent, News, UserProperty, Expert, Plot, CommercialProperty };

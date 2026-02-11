@@ -36,11 +36,11 @@ const WebUser = sequelize.define('WebUser', {
 });
 
 // Force sync to ensure schema matches model (specifically for name/username change)
-WebUser.sync({ alter: true }).then(() => {
-  console.log("WebUser table synced");
-}).catch(err => {
-  console.error("Error syncing WebUser table:", err);
-});
+// WebUser.sync({ alter: true }).then(() => {
+//   console.log("WebUser table synced");
+// }).catch(err => {
+//   console.error("Error syncing WebUser table:", err);
+// });
 
 export default WebUser;
 

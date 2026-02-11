@@ -27,6 +27,8 @@ import webuserRoutes from './routes/webuser.routes.js';
 import newsRoutes from './routes/news.routes.js';
 import userPropertyRoutes from './routes/userProperty.routes.js';
 import expertRoutes from './routes/expert.routes.js';
+import plotRoutes from './routes/plot.routes.js';
+import commercialPropertyRoutes from './routes/commercialProperty.routes.js';
 
 dotenv.config();
 
@@ -77,8 +79,18 @@ app.use('/api/testimonials', testimonialRoutes);
 app.use('/news', newsRoutes);
 app.use('/api/user-properties', userPropertyRoutes);
 app.use('/api/experts', expertRoutes);
+app.use('/api/plots', plotRoutes);
+console.log("Commercial Routes loaded:", commercialPropertyRoutes);
+
+app.use((req, res, next) => {
+  console.log(`Request: ${req.method} ${req.url}`);
+  next();
+});
+
+app.use('/api/commercial-properties', commercialPropertyRoutes);
 
 app.get("/", (req, res) => {
+  console.log("Health check hit");
   res.send("API is running...");
 });
 
