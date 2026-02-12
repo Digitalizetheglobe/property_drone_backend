@@ -5,13 +5,13 @@ import mysql2 from "mysql2";
 //   host: "localhost",        
 //   database: "property_drone", 
 //   user   : "root",        
-  
+
 // });
 const connection = mysql2.createConnection({
-  host: "localhost",        
-  database: "propertydrone", 
-  user: "property_user",
-  password: "PropertyDrone@2025"
+  host: "localhost",
+  database: "propertyDrone_db",
+  user: "root",
+  password: "Bhavik@020302"
 });
 
 

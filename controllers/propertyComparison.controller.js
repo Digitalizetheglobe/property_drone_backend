@@ -1,4 +1,4 @@
-import PropertyComparison from '../models/propertycomparison.model.js';
+import PropertyComparison from '../models/propertyComparison.model.js';
 import WebUser from '../models/webuser.model.js';
 
 const getAll = async (req, res) => {
