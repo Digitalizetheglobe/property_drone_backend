@@ -44,6 +44,16 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       field: 'reraNumber'
     },
+    pros: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      field: 'pros'
+    },
+    cons: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      field: 'cons'
+    },
    }, {
     // By setting freezeTableName, you ensure Sequelize doesn't pluralize the table name
     freezeTableName: true,
