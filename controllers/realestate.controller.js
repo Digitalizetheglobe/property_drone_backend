@@ -27,13 +27,17 @@ export const getRealEstateById = async (req, res) => {
 // Create a new real estate listing
 export const createRealEstate = async (req, res) => {
   try {
-    const { title, description, keywords, images, author } = req.body;
+    const { title, description, keywords, images, author, metaTitle, metaDescription, metaKeyword, canonical } = req.body;
     const realEstate = await RealEstate.create({
       title,
       description,
       keywords,
       images,
       author,
+      metaTitle,
+      metaDescription,
+      metaKeyword,
+      canonical
     });
     res.status(201).json(realEstate);
   } catch (error) {
@@ -44,7 +48,7 @@ export const createRealEstate = async (req, res) => {
 // Update a real estate listing
 export const updateRealEstate = async (req, res) => {
   try {
-    const { title, description, keywords, images, author } = req.body;
+    const { title, description, keywords, images, author, metaTitle, metaDescription, metaKeyword, canonical } = req.body;
     const realEstate = await RealEstate.findByPk(req.params.id);
     
     if (!realEstate) {
@@ -57,6 +61,10 @@ export const updateRealEstate = async (req, res) => {
       keywords,
       images,
       author,
+      metaTitle,
+      metaDescription,
+      metaKeyword,
+      canonical
     });
 
     res.json(realEstate);

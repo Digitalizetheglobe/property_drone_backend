@@ -1,8 +1,11 @@
 import SavedProperty from '../models/savedProperty.model.js';
+import WebUser from '../models/webuser.model.js';
 
 const getAll = async (req, res) => {
   try {
-    const items = await SavedProperty.findAll();
+    const items = await SavedProperty.findAll({
+      include: [{ model: WebUser }]
+    });
     res.json(items);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -11,7 +14,9 @@ const getAll = async (req, res) => {
 
 const getOne = async (req, res) => {
   try {
-    const item = await SavedProperty.findByPk(req.params.id);
+    const item = await SavedProperty.findByPk(req.params.id, {
+      include: [{ model: WebUser }]
+    });
     if (!item) return res.status(404).json({ error: 'Not found' });
     res.json(item);
   } catch (error) {

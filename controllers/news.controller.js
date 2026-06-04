@@ -60,7 +60,11 @@ export const createNews = async (req, res) => {
             newsContent,
             writer,
             category,
-            tags
+            tags,
+            metaTitle,
+            metaDescription,
+            metaKeyword,
+            canonical
         } = req.body;
 
         if (!newsTitle) {
@@ -91,7 +95,11 @@ export const createNews = async (req, res) => {
             writer,
             category,
             tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
-            slug
+            slug,
+            metaTitle,
+            metaDescription,
+            metaKeyword,
+            canonical
         });
 
         console.log("New News Created:", newNews);

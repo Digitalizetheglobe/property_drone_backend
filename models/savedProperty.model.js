@@ -47,6 +47,8 @@ const SavedProperty = sequelize.define('SavedProperty', {
         }
     ]
 });
+SavedProperty.belongsTo(WebUser, { foreignKey: 'webUserId' });
+WebUser.hasMany(SavedProperty, { foreignKey: 'webUserId' });
 
 export default SavedProperty;
 

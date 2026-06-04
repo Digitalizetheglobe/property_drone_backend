@@ -44,6 +44,14 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+        contactDetails: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
         status: {
             type: DataTypes.STRING,
             defaultValue: "Pending", // Pending, Verified, Rejected

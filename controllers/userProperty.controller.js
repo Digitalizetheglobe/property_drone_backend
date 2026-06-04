@@ -15,7 +15,9 @@ export const createUserProperty = async (req, res) => {
             area,
             areaUnit,
             furnishing,
-            shareWithAgents
+            shareWithAgents,
+            contactDetails,
+            email
         } = req.body;
 
         const newProperty = await UserProperty.create({
@@ -29,7 +31,9 @@ export const createUserProperty = async (req, res) => {
             area,
             areaUnit,
             furnishing,
-            shareWithAgents
+            shareWithAgents,
+            contactDetails,
+            email
         });
 
         res.status(201).json(newProperty);

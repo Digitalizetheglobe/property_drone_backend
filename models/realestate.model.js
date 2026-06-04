@@ -29,6 +29,22 @@ const RealEstateModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      metaTitle: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      metaDescription: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      metaKeyword: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      canonical: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
