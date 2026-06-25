@@ -94,5 +94,16 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
+import sequelizeInstance from './config/database.js';
+
 const PORT = process.env.PORT || 9000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+sequelizeInstance.sync({ alter: true })
+  .then(() => {
+    console.log("Database tables from config/database.js synced!");
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch((err) => {
+    console.error("Error syncing database:", err);
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  });
