@@ -29,6 +29,7 @@ export default (sequelize, DataTypes) => {
     seoDescription: { type: DataTypes.STRING, allowNull: true },
     seoTitle: { type: DataTypes.STRING, allowNull: true },
     seoKeywords: { type: DataTypes.STRING, allowNull: true },
+    canonical: { type: DataTypes.STRING, allowNull: true },
     configurationTypology: {
       type: DataTypes.JSON,
       allowNull: true,
@@ -54,6 +55,11 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       field: 'cons'
     },
+    aboutPropertyDescription: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      field: 'aboutPropertyDescription'
+    }
    }, {
     // By setting freezeTableName, you ensure Sequelize doesn't pluralize the table name
     freezeTableName: true,

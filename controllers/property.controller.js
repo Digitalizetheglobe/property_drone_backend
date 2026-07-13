@@ -63,11 +63,14 @@ export const createProperty = async (req, res) => {
       amenities,
       configurationTypology,
       event,
-      reraNumber
+      reraNumber,
+      canonical,
+      slug: clientSlug,
+      aboutPropertyDescription
     } = req.body;
 
-    // Generate slug from property name
-    const slug = slugify(propertyName, { lower: true });
+    // Generate slug from property name if not provided
+    const slug = clientSlug ? clientSlug : slugify(propertyName, { lower: true });
 
     // Process multiple images if uploaded
     let multipleImages = [];
@@ -127,7 +130,9 @@ export const createProperty = async (req, res) => {
       amenities: parsedAmenities,
       configurationTypology: parsedConfigurationTypology,
       event,
-      reraNumber
+      reraNumber,
+      canonical,
+      aboutPropertyDescription
     });
 
     console.log("New property created:", newProperty);
@@ -154,7 +159,7 @@ export const updateProperty = async (req, res) => {
     }
     
     // If generating a new slug is needed when property name changes
-    if (updateData.propertyName) {
+    if (!updateData.slug && updateData.propertyName) {
       updateData.slug = slugify(updateData.propertyName, { lower: true });
     }
 

@@ -15,11 +15,11 @@ const router = express.Router();
 // Get all properties
 router.get("/", getProperties);
 
+// Get property by ID
+router.get("/:id(\\d+)", getPropertyById);
+
 // Get property by slug
 router.get("/:slug", getPropertyBySlug);
-
-// Get property by ID
-router.get("/:id", getPropertyById);
 
 // Create new property with image uploads
 router.post("/", upload.array("propertyImages", 10), createProperty);

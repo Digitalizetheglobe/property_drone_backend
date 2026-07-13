@@ -26,6 +26,13 @@ const getOne = async (req, res) => {
 
 const create = async (req, res) => {
   try {
+    const { webUserId } = req.body;
+    if (webUserId) {
+      const userExists = await WebUser.findByPk(webUserId);
+      if (!userExists) {
+        return res.status(401).json({ error: "User session is invalid. Please log in again." });
+      }
+    }
     const item = await SavedProperty.create(req.body);
     res.status(201).json(item);
   } catch (error) {

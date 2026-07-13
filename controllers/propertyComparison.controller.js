@@ -41,6 +41,12 @@ const create = async (req, res) => {
       return res.status(400).json({ error: "webUserId and propertyId are required" });
     }
 
+    // Verify if the user exists in the database
+    const userExists = await WebUser.findByPk(webUserId);
+    if (!userExists) {
+      return res.status(401).json({ error: "User session is invalid. Please log in again." });
+    }
+
     // Idempotency check with explicit string cast for propertyId
     // Using String() ensures we match how DB stores it if it is STRING type
     const existing = await PropertyComparison.findOne({
