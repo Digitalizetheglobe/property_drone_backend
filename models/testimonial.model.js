@@ -14,6 +14,10 @@ const Testimonial = sequelize.define('Testimonial', {
       notEmpty: true
     }
   },
+  image: {
+    type: DataTypes.JSON,
+    allowNull: true
+  },
   testimonial: {
     type: DataTypes.TEXT,
     allowNull: false,

@@ -21,7 +21,24 @@ const getOne = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const item = await Testimonial.create(req.body);
+    let image = null;
+    if (req.files && req.files.length > 0) {
+      const file = req.files[0];
+      image = {
+        filename: file.filename,
+        path: `/uploads/testimonials/${file.filename}`,
+        originalName: file.originalname,
+        fieldName: file.fieldname
+      };
+    }
+
+    const itemData = {
+      ...req.body,
+      isActive: req.body.isActive === 'true' || req.body.isActive === true,
+      image
+    };
+
+    const item = await Testimonial.create(itemData);
     res.status(201).json(item);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -30,7 +47,22 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const [updated] = await Testimonial.update(req.body, { where: { id: req.params.id } });
+    let updateData = {
+      ...req.body,
+      isActive: req.body.isActive === 'true' || req.body.isActive === true
+    };
+
+    if (req.files && req.files.length > 0) {
+      const file = req.files[0];
+      updateData.image = {
+        filename: file.filename,
+        path: `/uploads/testimonials/${file.filename}`,
+        originalName: file.originalname,
+        fieldName: file.fieldname
+      };
+    }
+
+    const [updated] = await Testimonial.update(updateData, { where: { id: req.params.id } });
     if (!updated) return res.status(404).json({ error: 'Not found' });
     const item = await Testimonial.findByPk(req.params.id);
     res.json(item);
