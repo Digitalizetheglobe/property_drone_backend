@@ -17,6 +17,7 @@ import NewsModel from './news.model.js';
 import UserPropertyModel from './userProperty.model.js';
 import ExpertModel from './expert.model.js';
 import CommercialPropertyModel from './commercialProperty.model.js';
+import LeadSourceModel from "./leadSource.model.js";
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ const UserProperty = UserPropertyModel(sequelize, DataTypes);
 const Expert = ExpertModel(sequelize, DataTypes);
 const Plot = PlotModel(sequelize, DataTypes);
 const CommercialProperty = CommercialPropertyModel(sequelize, DataTypes);
+const LeadSource = LeadSourceModel(sequelize, DataTypes);
 
 // Define associations
 // Define associations
@@ -62,4 +64,4 @@ sequelize.sync({ alter: true })
   .then(() => console.log("Database & tables created!"))
   .catch((err) => console.log("Error:", err));
 
-export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo, RealEstate, RealEstateBasic, CookieConsent, News, UserProperty, Expert, Plot, CommercialProperty };
+export { sequelize, Contact, Project, Blog, Property, AdminUser, Career, JobApplication, YoutubeVideo, RealEstate, RealEstateBasic, CookieConsent, News, UserProperty, Expert, Plot, CommercialProperty, LeadSource };

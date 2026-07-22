@@ -29,6 +29,7 @@ import userPropertyRoutes from './routes/userProperty.routes.js';
 import expertRoutes from './routes/expert.routes.js';
 import plotRoutes from './routes/plot.routes.js';
 import commercialPropertyRoutes from './routes/commercialProperty.routes.js';
+import leadSourceRoutes from './routes/leadSource.routes.js';
 
 dotenv.config();
 
@@ -80,6 +81,7 @@ app.use('/news', newsRoutes);
 app.use('/api/user-properties', userPropertyRoutes);
 app.use('/api/experts', expertRoutes);
 app.use('/api/plots', plotRoutes);
+app.use('/api/lead-sources', leadSourceRoutes);
 console.log("Commercial Routes loaded:", commercialPropertyRoutes);
 
 app.use((req, res, next) => {
